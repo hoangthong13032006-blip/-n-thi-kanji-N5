@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn Thi Kanji N5 - Trắc Nghiệm Đa Năng</title>
+  <meta name="description" content="Trang web ôn tập Kanji N5 thông minh với trắc nghiệm, thẻ ghi nhớ flashcard lật 3D và phát âm chuẩn Nhật ngữ từ tài liệu ôn thi.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="logo-section">
+        <div class="logo-icon flex-center">N5</div>
+        <div>
+          <h1>Kanji Master</h1>
+        </div>
+      </div>
+      
+      <div class="settings-controls">
+        <button id="sound-toggle" class="control-btn" title="Bật/Tắt âm thanh" aria-label="Toggle Sound">
+          <!-- Speaker icon will be injected by JS -->
+        </button>
+        <button id="theme-toggle" class="control-btn" title="Đổi giao diện" aria-label="Toggle Theme">
+          <!-- Sun/Moon icon will be injected by JS -->
+        </button>
+      </div>
+    </header>
+
+    <!-- NAVIGATION MENU -->
+    <nav class="nav-menu">
+      <button id="nav-dashboard" class="nav-item active" aria-label="Dashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="10" rx="1"/><rect width="7" height="5" x="3" y="14" rx="1"/></svg>
+        Tổng quan
+      </button>
+      <button id="nav-flashcards" class="nav-item" aria-label="Flashcards">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-check"><path d="M8 3H2v15h7c1.7 0 3 1.3 3 3V7c0-2.2-1.8-4-4-4Z"/><path d="M16 3h6v15h-7c-1.7 0-3 1.3-3 3V7c0-2.2 1.8-4 4-4Z"/><path d="m16 12 2 2 4-4"/></svg>
+        Học thẻ nhớ
+      </button>
+      <button id="nav-quiz" class="nav-item" aria-label="Quiz">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/><path d="M21.5 12v6"/></svg>
+        Luyện trắc nghiệm
+      </button>
+      <button id="nav-dictionary" class="nav-item" aria-label="Vocabulary List">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Tra từ vựng
+      </button>
+    </nav>
+
+    <!-- MAIN VIEWS -->
+    <main>
+      
+      <!-- SCREEN 1: DASHBOARD -->
+      <section id="screen-dashboard" class="screen active">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner glass-card">
+          <div class="welcome-text">
+            <h2>Chào mừng bạn đến với Kanji N5 Master!</h2>
+            <p>Hệ thống ôn tập thông minh trích xuất từ tài liệu <strong>Tổng ôn N5-kanji</strong>. Luyện tập hằng ngày giúp bạn ghi nhớ sâu chữ Hán, cách đọc và ý nghĩa chuẩn xác.</p>
+          </div>
+          <div class="welcome-actions">
+            <button id="quick-study-btn" class="btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Học Thẻ Nhớ
+            </button>
+            <button id="quick-quiz-btn" class="btn btn-secondary">
+              Luyện Trắc Nghiệm
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap streak flex-center">🔥</div>
+            <div class="stat-info">
+              <h3>Chuỗi học tập</h3>
+              <p id="stat-streak">0 ngày</p>
+            </div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap accuracy flex-center">🎯</div>
+            <div class="stat-info">
+              <h3>Tỉ lệ đúng</h3>
+              <p id="stat-accuracy">0%</p>
+            </div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap total flex-center">⚡</div>
+            <div class="stat-info">
+              <h3>Tổng số câu trả lời</h3>
+              <p id="stat-total-reviews">0</p>
+            </div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-icon-wrap favorites flex-center">⭐</div>
+            <div class="stat-info">
+              <h3>Từ vựng đã lưu</h3>
+              <p id="stat-favorites-count">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Study Guide -->
+        <div class="tips-section glass-card">
+          <h3>Mẹo học tập hiệu quả</h3>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <div class="tip-num flex-center">1</div>
+              <div class="tip-content">
+                <h4>Học qua Thẻ ghi nhớ trước</h4>
+                <p>Xem mặt trước để nhận diện chữ Hán, nhấn lật thẻ ra mặt sau nghe phát âm và đối chiếu nghĩa trước khi kiểm tra.</p>
+              </div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num flex-center">2</div>
+              <div class="tip-content">
+                <h4>Đa dạng hóa chế độ thi</h4>
+                <p>Luyện tập tráo đổi giữa nhận diện Kanji -> nghĩa tiếng Việt và cách đọc Hiragana -> chữ Kanji để kích thích bán cầu não.</p>
+              </div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num flex-center">3</div>
+              <div class="tip-content">
+                <h4>Duy trì Streak đều đặn</h4>
+                <p>Chỉ cần 5 - 10 phút luyện tập mỗi ngày để giữ vững phản xạ và không bị mai một kiến thức N5 cơ bản.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: FLASHCARDS -->
+      <section id="screen-flashcards" class="screen">
+        <div class="section-header">
+          <div class="section-title">
+            <h2>Thẻ Ghi Nhớ Tương Tác</h2>
+            <p>Nhấp vào thẻ để lật, nhấn biểu tượng loa để nghe phát âm Nhật ngữ.</p>
+          </div>
+          <select id="fc-lesson-select" class="select-filter">
+            <!-- Lessons populated dynamically -->
+          </select>
+        </div>
+
+        <!-- 3D Card Area -->
+        <div class="flashcard-wrapper" id="fc-wrapper">
+          <div class="flashcard-inner" id="fc-card">
+            
+            <!-- Front Face -->
+            <div class="card-face card-face-front">
+              <div class="card-top">
+                <span class="card-hint">Chữ Hán</span>
+                <button class="card-btn" id="fc-favorite-btn" title="Thêm vào danh sách yêu thích">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </button>
+              </div>
+              <div class="card-main">
+                <h2 class="card-kanji-big" id="fc-front-kanji">雨</h2>
+              </div>
+              <div class="card-footer-tip">Bấm vào đây để lật thẻ</div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-face-back">
+              <div class="card-top">
+                <span class="card-hint">Giải nghĩa</span>
+                <button class="card-btn" id="fc-speak-btn" title="Nghe phát âm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </button>
+              </div>
+              <div class="card-main">
+                <h3 class="card-kanji-big" id="fc-back-kanji">雨</h3>
+                <h2 class="card-hiragana-big" id="fc-back-hiragana">あめ</h2>
+                <p class="card-meaning-big" id="fc-back-meaning">mưa</p>
+              </div>
+              <div class="card-footer-tip">Bấm vào đây để úp thẻ</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="card-controllers">
+          <button id="fc-prev-btn" class="btn-round" aria-label="Previous card">←</button>
+          <button id="fc-next-btn" class="btn-round" aria-label="Next card">→</button>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="card-progress-container">
+          <div class="progress-info">
+            <span>Tiến độ học</span>
+            <span id="fc-progress-text">1/140</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="fc-progress-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: QUIZ -->
+      <section id="screen-quiz" class="screen">
+        
+        <!-- Setup / Config Area -->
+        <div id="quiz-setup-area" class="quiz-config-card glass-card">
+          <div class="section-title" style="margin-bottom: 24px; text-align: center;">
+            <h2>Thiết Lập Bài Kiểm Tra</h2>
+            <p>Chọn các thông số để khởi tạo bài thi trắc nghiệm Kanji N5</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="quiz-lesson-select">Phạm vi bài học</label>
+            <select id="quiz-lesson-select">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="quiz-mode-select">Chế độ thi</label>
+            <select id="quiz-mode-select">
+              <option value="kanji-to-hiragana">Chữ Hán → Cách đọc Hiragana</option>
+              <option value="hiragana-to-kanji">Cách đọc Hiragana → Chữ Hán</option>
+              <option value="kanji-to-meaning">Chữ Hán → Nghĩa tiếng Việt</option>
+              <option value="meaning-to-kanji">Nghĩa tiếng Việt → Chữ Hán</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="quiz-count-select">Số lượng câu hỏi</label>
+            <select id="quiz-count-select">
+              <option value="10">10 câu</option>
+              <option value="20">20 câu</option>
+              <option value="50">50 câu</option>
+              <option value="all">Tất cả từ vựng được chọn</option>
+            </select>
+          </div>
+          
+          <button id="quiz-start-btn" class="btn" style="width: 100%; justify-content: center; margin-top: 10px;">
+            Bắt Đầu Kiểm Tra
+          </button>
+        </div>
+
+        <!-- Active Quiz Room Area -->
+        <div id="quiz-play-area" class="quiz-play-container" style="display: none;">
+          <div class="quiz-header">
+            <span id="quiz-progress-text" style="font-weight: 600; color: var(--text-secondary);">Câu hỏi 1/10</span>
+            <div class="progress-track" style="width: 60%; height: 6px;">
+              <div class="progress-bar" id="quiz-progress-bar"></div>
+            </div>
+          </div>
+          
+          <div class="quiz-question-box glass-card">
+            <p class="quiz-question-title">Chọn đáp án đúng nhất</p>
+            <h2 class="quiz-question-main" id="quiz-question-text">雨</h2>
+          </div>
+          
+          <div class="quiz-options-grid" id="quiz-options-container">
+            <!-- Option buttons injected dynamically -->
+          </div>
+          
+          <!-- Answer Feedback Box -->
+          <div class="feedback-box" id="quiz-feedback-area" style="display: none;">
+            <div class="feedback-card">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+          
+          <div class="quiz-actions">
+            <button id="quiz-next-btn" class="btn" style="display: none;">
+              Tiếp theo
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Results Area -->
+        <div id="quiz-results-area" class="quiz-results-card glass-card" style="display: none;">
+          <div class="results-graphic flex-center">🏆</div>
+          <h2 class="results-score" id="results-score-text">10/10</h2>
+          <p class="results-label">Điểm số của bạn</p>
+          
+          <div class="results-stats-row">
+            <div class="result-stat-item">
+              <h4>Tỉ lệ đúng</h4>
+              <p id="results-accuracy-text">100%</p>
+            </div>
+          </div>
+          
+          <p class="results-message" id="results-message-text">Chúc mừng! Bạn đã trả lời chính xác tất cả các câu hỏi.</p>
+          
+          <div class="results-buttons">
+            <button id="results-retry-btn" class="btn">Luyện lại</button>
+            <button id="results-home-btn" class="btn btn-secondary">Tổng quan</button>
+          </div>
+        </div>
+        
+      </section>
+
+      <!-- SCREEN 4: DICTIONARY -->
+      <section id="screen-dictionary" class="screen">
+        <div class="section-header">
+          <div class="section-title">
+            <h2>Tra Cứu Từ Vựng Kanji N5</h2>
+            <p>Tổng hợp đầy đủ 140 từ vựng Kanji có trong tài liệu của bạn.</p>
+          </div>
+        </div>
+
+        <!-- Search Bar and Filters -->
+        <div class="search-bar-wrap">
+          <div class="search-input-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="dict-search-input" class="search-input" placeholder="Tìm theo Chữ Hán, Hiragana hoặc nghĩa tiếng Việt...">
+          </div>
+          
+          <select id="dict-lesson-select" class="select-filter">
+            <!-- Options populated dynamically -->
+          </select>
+          
+          <button id="dict-fav-filter-btn" class="btn-filter" title="Lọc từ vựng đã yêu thích">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Yêu thích
+          </button>
+        </div>
+
+        <!-- Vocabulary Grid -->
+        <div class="vocab-grid" id="dict-grid">
+          <!-- Cards populated dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>&copy; 2026 Kanji N5 Master - Ôn Tập Kanji Tương Tác</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
