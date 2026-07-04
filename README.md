@@ -1,0 +1,1 @@
+# -n-thi-kanji-N5
